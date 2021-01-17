@@ -1,4 +1,11 @@
-# seiseki-nortification-bot
+# snipetool
+
+## environment
+
+~~~
+$python -V
+Python 3.8.7
+~~~
 
 ## setup
 
