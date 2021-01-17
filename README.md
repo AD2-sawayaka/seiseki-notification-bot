@@ -1,9 +1,20 @@
 # snipetool
 
+## Usage
+
+GPA出力
+
+~~~
+$ python GPAgetter.py
+GPAgetter.py:34: DeprecationWarning: use options instead of chrome_options
+  driver = webdriver.Chrome(chrome_options=options)
+Your GPA is 3.508
+~~~
+
 ## environment
 
 ~~~
-$python -V
+$ python -V
 Python 3.8.7
 ~~~
 
