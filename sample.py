@@ -12,8 +12,16 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import chromedriver_binary
 
+import psycopg2
+
 from dotenv import load_dotenv
 import os
+
+
+def get_connection():
+    dsn = os.environ.get('DATABASE_URL')
+    return psycopg2.connect(dsn)
+
 
 load_dotenv()
 MY_ID = os.environ["MY_ID"]
@@ -57,54 +65,33 @@ table = bsObj.findAll('table')[-3]
 # print(table)
 rows = table.select("tr")
 
+# connectionとcursor
+conn = get_connection()
+cur = conn.cursor()
 
 # 科目名、担当教員名、科目区分、必修選択区分、単位、評価、得点、科目GP、取得年度、報告日
-subject_name = list()
-teacher_name = list()
-subject_classification = list()
-required_selection_category = list()
-unit = list()
-evaluation = list()
-score = list()
-GP = list()
-acquisition_year = list()
-reporting_date = list()
-
-count = 0
-
+flag = False
 
 for row in rows:
     tmp = list()
     for cell in row.findAll(['td', 'th']):
         if cell.get_text(strip=True) != '':
-            text = cell.get_text(strip=True)
+            text = "'" + cell.get_text(strip=True) + "'"
             text = ''.join(text.split())
             tmp.append(text)
         # print(cell.get_text(strip=True))
-    print(tmp)
+    tmp = ', '.join(tmp)
+    query = 'INSERT INTO seiseki VALUES (' + tmp + ')'
+    if (flag) :
+        cur.execute(query)
+        conn.commit()
+    else :
+        flag = True
 
-# # 成績情報の参照
-# selector = 'body > table:nth-child(4) > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(4) > td > table > tbody > tr:nth-child(1) > td:nth-child(2) > a'
-# element = driver.find_element_by_css_selector(selector)
-# driver.execute_script('arguments[0].click();', element)
 
-# # ウィンドウハンドルを取得する
-# handle_array = driver.window_handles
-# # 一番最後のdriverに切り替える
-# driver.switch_to.window(handle_array[-1])
+# close
+cur.close()
+conn.close()
 
-# # while(True):
-
-# # 学科等案内GPA
-# selector = 'body > table:nth-child(8) > tbody > tr > td:nth-child(2) > table > tbody > tr > td:nth-child(5) > span > img'
-# element = driver.find_element_by_css_selector(selector)
-# driver.execute_script('arguments[0].click();', element)
-
-# # tableを取得
-# selector = 'body > table:nth-child(10)'
-# rows = driver.find_element_by_css_selector(selector)
-# for row in rows:
-#     print(row)
-
-time.sleep(10)
+time.sleep(5)
 driver.quit()
