@@ -39,6 +39,14 @@ http://chromedriver.chromium.org/downloads
 pip install chromedriver_binary==88.hogehoge
 ~~~
 
+### PostgreSQL
+
+~~~sql
+CREATE DATABASE seiseki_information;
+\c seiseki_information
+\i seiseki.sql
+~~~
+
 ### env
 
 .envファイルに以下を参考にIDとパスワードを書いてください
@@ -46,4 +54,7 @@ pip install chromedriver_binary==88.hogehoge
 ~~~
 MY_ID="your id"
 MY_PASS="your password"
+DATABASE_URL="postgres://postgres:@localhost:5432/seiseki_information"
 ~~~
+
+DATABASE_URLはここ参照https://qiita.com/hoto17296/items/0ca1569d6fa54c7c4732

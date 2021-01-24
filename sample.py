@@ -1,13 +1,7 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.alert import Alert
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import chromedriver_binary
@@ -18,14 +12,15 @@ from dotenv import load_dotenv
 import os
 
 
-def get_connection():
-    dsn = os.environ.get('DATABASE_URL')
-    return psycopg2.connect(dsn)
-
-
+# heroku上では要らない、直接登録して
 load_dotenv()
 MY_ID = os.environ["MY_ID"]
 MY_PASS = os.environ["MY_PASS"]
+
+
+def get_connection():
+    dsn = os.environ.get('DATABASE_URL')
+    return psycopg2.connect(dsn)
 
 
 # Seleniumをあらゆる環境で起動させるChromeオプション
@@ -53,6 +48,7 @@ driver.implicitly_wait(10)  # 秒
 #
 
 # 学情にアクセスする
+# 適宜置き換えてください
 url = 'file:///Users/otyamura/git/seiseki-nortification-bot/html/score.htm'
 driver.get(url)
 
@@ -82,10 +78,10 @@ for row in rows:
         # print(cell.get_text(strip=True))
     tmp = ', '.join(tmp)
     query = 'INSERT INTO seiseki VALUES (' + tmp + ')'
-    if (flag) :
+    if (flag):
         cur.execute(query)
         conn.commit()
-    else :
+    else:
         flag = True
 
 
