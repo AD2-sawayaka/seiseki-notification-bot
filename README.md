@@ -24,6 +24,7 @@ Python 3.8.7
 pip install selenium
 pip install chromedriver_binary
 pip install python-dotenv
+pip install bs4
 ~~~
 
 もしchromeのバージョンが違ったらこのサイトを参考に
