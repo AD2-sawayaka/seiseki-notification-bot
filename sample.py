@@ -76,7 +76,10 @@ count = 0
 for row in rows:
     tmp = list()
     for cell in row.findAll(['td', 'th']):
-        tmp.append(cell.get_text(strip=True))
+        if cell.get_text(strip=True) != '':
+            text = cell.get_text(strip=True)
+            text = ''.join(text.split())
+            tmp.append(text)
         # print(cell.get_text(strip=True))
     print(tmp)
 

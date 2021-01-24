@@ -25,7 +25,11 @@ pip install selenium
 pip install chromedriver_binary
 pip install python-dotenv
 pip install bs4
+pip install psycopg2
 ~~~
+
+psycopg2のinstallがエラったらこれ
+https://dev.classmethod.jp/articles/mac-psycopg2-install/
 
 もしchromeのバージョンが違ったらこのサイトを参考に
 
