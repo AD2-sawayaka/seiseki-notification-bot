@@ -93,27 +93,11 @@ selector = 'body > table:nth-child(8) > tbody > tr > td:nth-child(2) > table > t
 element = driver.find_element_by_css_selector(selector)
 driver.execute_script('arguments[0].click();', element)
 
-# ウィンドウハンドルを取得する
-handle_array = driver.window_handles
-# 一番最後のdriverに切り替える
-driver.switch_to.window(handle_array[-1])
-
-# 累計GPA
-selector = 'body > table:nth-child(3) > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)'
-element = driver.find_element_by_css_selector(selector)
-# GPA出力
-print("Your GPA is " + element.text)
-
-# 戻る処理
-selector = 'body > table:nth-child(5) > tbody > tr > td > table > tbody > tr > td > input[type=image]'
-element = driver.find_element_by_css_selector(selector)
-driver.execute_script('arguments[0].click();', element)
-
-# ウィンドウハンドルを取得する
-handle_array = driver.window_handles
-# 一番最後のdriverに切り替える
-driver.switch_to.window(handle_array[-1])
-
+# tableを取得
+selector = 'body > table:nth-child(10)'
+rows = driver.find_element_by_css_selector(selector)
+for row in rows:
+    print(row)
 
 time.sleep(10)
 driver.quit()
