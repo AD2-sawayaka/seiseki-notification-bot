@@ -1,6 +1,10 @@
 import psycopg2
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+print("hello world")
 
 def get_connection():
     dsn = os.environ.get('DATABASE_URL')

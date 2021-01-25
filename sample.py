@@ -49,7 +49,7 @@ driver.implicitly_wait(10)  # 秒
 
 # 学情にアクセスする
 # 適宜置き換えてください
-url = 'file:///Users/otyamura/git/seiseki-nortification-bot/html/score.htm'
+url = 'file:///C:/Users/cs19088/Documents/GitHub/seiseki-nortification-bot/html/score.html'
 driver.get(url)
 
 cur_url = driver.current_url
@@ -65,7 +65,7 @@ rows = table.select("tr")
 conn = get_connection()
 cur = conn.cursor()
 
-# 科目名、担当教員名、科目区分、必修選択区分、単位、評価、得点、科目GP、取得年度、報告日
+# 科目名、担当教員名、科目区分、必修選択区分、単位、評価、得点、科目GP、取得年度、報告日、 試験種別
 flag = False
 
 for row in rows:

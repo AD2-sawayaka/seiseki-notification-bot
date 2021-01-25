@@ -9,5 +9,6 @@ CREATE TABLE seiseki (
     score FLOAT NOT NULL,
     gp FLOAT NOT NULL,
     acquisition_year INTEGER NOT NULL,
-    reporting_date DATE NOT NULL
+    reporting_date DATE NOT NULL,
+    test_type VARCHAR(255) 
 );
