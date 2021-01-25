@@ -11,10 +11,11 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import os
-# from dotenv import load_dotenv
 import getter as g
 
-load_dotenv()
+# heroku上では使わない
+# from dotenv import load_dotenv
+# load_dotenv()
 
 app = Flask(__name__)
 
