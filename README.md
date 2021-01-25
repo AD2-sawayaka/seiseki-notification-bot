@@ -1,4 +1,4 @@
-# snipetool
+# seiseki-nortification-bot
 
 ## Usage
 
@@ -50,8 +50,7 @@ CREATE DATABASE seiseki_information;
 ~~~
 
 ### env
-
-.envファイルに以下を参考にIDとパスワードを書いてください
+localで実行する際.envファイルに以下を参考にIDとパスワードを書いてください
 
 ~~~
 MY_ID="your id"
@@ -60,3 +59,30 @@ DATABASE_URL="postgres://postgres:@localhost:5432/seiseki_information"
 ~~~
 
 DATABASE_URLはここ参照https://qiita.com/hoto17296/items/0ca1569d6fa54c7c4732
+
+## Heroku & Line bot
+
+- Line bot作成
+- Heroku
+
+~~~
+heroku create your-app-name
+heroku config:set YOUR_CHANNEL_SECRET="Channel Secretの文字列" --app {自分のアプリケーション名}
+heroku config:set YOUR_CHANNEL_ACCESS_TOKEN="アクセストークンの文字列" --app {自分のアプリケーション名}
+heroku config:set MY_ID="静大ID" --app {自分のアプリケーション名}
+heroku config:set MY_PASS="パスワード" --app {自分のアプリケーション名}
+git push heroku main
+
+heroku addons:create heroku-postgresql:hobby-dev -a your_app_name
+heroku pg:psql -a your_app_name
+=>\i sql/seiseki.sql
+=>select * from seiseki;
+
+
+~~~
+
+    - buildpack追加
+
+Buildpack 	URL
+chromedrive 	https://github.com/heroku/heroku-buildpack-chromedriver.git
+google-chrome 	https://github.com/heroku/heroku-buildpack-google-chrome.git

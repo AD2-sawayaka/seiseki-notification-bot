@@ -1,25 +1,20 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
 import chromedriver_binary
 
-import psycopg2
-
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+import psycopg2
 import os
-
-
-
 
 
 def get_connection():
     dsn = os.environ.get('DATABASE_URL')
     return psycopg2.connect(dsn)
 
-#すでに登録されている名前であればTrue
+
+# すでに登録されている名前であればTrue
 def isResistered(name, cur):
     query = "SELECT subject_name FROM seiseki WHERE subject_name = '" + name +  "'"
     cur.execute(query)
@@ -30,12 +25,11 @@ def isResistered(name, cur):
         return True
     return False
 
+
 def run():
-    # heroku上では要らない、直接登録して
     load_dotenv()
     MY_ID = os.environ["MY_ID"]
     MY_PASS = os.environ["MY_PASS"]
-        
     # Seleniumをあらゆる環境で起動させるChromeオプション
     options = Options()
     options.add_argument('--disable-gpu')
@@ -43,7 +37,7 @@ def run():
     options.add_argument('--proxy-server="direct://"')
     options.add_argument('--proxy-bypass-list=*')
     options.add_argument('--start-maximized')
-    options.add_argument('--headless')  # ※ヘッドレスモードを使用する場合、コメントアウトを外す
+    # options.add_argument('--headless')  # ※ヘッドレスモードを使用する場合、コメントアウトを外す
 
     #
     # Chromeドライバーの起動
@@ -52,7 +46,7 @@ def run():
     # driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
     driver = webdriver.Chrome(chrome_options=options)
 
-    driver.implicitly_wait(5)  # 秒
+    driver.implicitly_wait(10)  # 秒
 
     #
     #
@@ -61,17 +55,55 @@ def run():
     #
 
     # 学情にアクセスする
-    # 適宜置き換えてください
-    url = 'file:///C:/Users/cs19088/Documents/GitHub/seiseki-nortification-bot/html/score.html'
+    url = 'https://gakujo.shizuoka.ac.jp/portal/'
     driver.get(url)
 
-    cur_url = driver.current_url
+    # トップページでログインボタンを押す
+    selector = '#left_container > div.left-module-top.bg_color > div > div > a'
+    element = driver.find_element_by_css_selector(selector)
+    driver.execute_script('arguments[0].click();', element)
 
-    html = urlopen(cur_url)
+    # username
+    selector = '#username'
+    element = driver.find_element_by_css_selector(selector)
+    element.send_keys(MY_ID)
+
+    # password
+    selector = '#password'
+    element = driver.find_element_by_css_selector(selector)
+    element.send_keys(MY_PASS)
+
+    # Loginボタン
+    selector = 'body > div > div > div > div > form > div:nth-child(3) > button'
+    element = driver.find_element_by_css_selector(selector)
+    driver.execute_script('arguments[0].click();', element)
+
+    # 教務システム
+    selector = '#home_systemCooperationLink > div.left-module.mt15 > div > ul > li:nth-child(1) > a'
+    element = driver.find_element_by_css_selector(selector)
+    driver.execute_script('arguments[0].click();', element)
+
+    # ウィンドウハンドルを取得する
+    handle_array = driver.window_handles
+    # 一番最後のdriverに切り替える
+    driver.switch_to.window(handle_array[-1])
+
+
+    # 成績情報の参照
+    selector = 'body > table:nth-child(4) > tbody > tr > td:nth-child(2) > table > tbody > tr:nth-child(4) > td > table > tbody > tr:nth-child(1) > td:nth-child(2) > a'
+    element = driver.find_element_by_css_selector(selector)
+    driver.execute_script('arguments[0].click();', element)
+
+    # ウィンドウハンドルを取得する
+    handle_array = driver.window_handles
+    # 一番最後のdriverに切り替える
+    driver.switch_to.window(handle_array[-1])
+
+    # tableを取得
+    html = driver.page_source
     bsObj = BeautifulSoup(html, "html.parser")
 
     table = bsObj.findAll('table')[-3]
-    # print(table)
     rows = table.select("tr")
 
     # connectionとcursor
@@ -90,16 +122,13 @@ def run():
                 text = "'" + cell.get_text(strip=True) + "'"
                 text = ''.join(text.split())
                 tmp.append(text)
-            #print(cell.get_text(strip=True))
+                # print(cell.get_text(strip=True))
         tmp_name = tmp[0].replace("'", "")
         tmp_str = tmp[0].replace("'", "") + " " + tmp[5].replace("'", "") + " " + tmp[6].replace("'", "")
-        #print(tmp_name)
+        # print(tmp_name)
         tmp = ', '.join(tmp)
         if (flag):
             if isResistered(tmp_name, cur):
-                #すでに存在する
-                #print('TRUE')
-            
                 print('あるよ')
             else:
                 update = True
@@ -119,3 +148,5 @@ def run():
     return update, updateList
 
 
+if __name__ == '__main__':
+    run()
