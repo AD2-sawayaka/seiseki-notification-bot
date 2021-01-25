@@ -1,5 +1,6 @@
 from flask import Flask, request, abort
 
+
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -10,6 +11,10 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import os
+from dotenv import load_dotenv
+import sample as sm
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -40,12 +45,18 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    flag, updateList = sm.run()
+    list='\n'.join(updateList)
+    if flag:
+        message="更新されたよ！\n"
+    else:
+        message="更新されたものはないよ！"
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=message + list))
 
 
 if __name__ == "__main__":
-#    app.run()
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run()
+    # port = int(os.getenv("PORT", 5000))
+    # app.run(host="0.0.0.0", port=port)

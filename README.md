@@ -26,6 +26,8 @@ pip install chromedriver_binary
 pip install python-dotenv
 pip install bs4
 pip install psycopg2
+pip install flask
+pip install line-bot-sdk
 ~~~
 
 psycopg2のinstallがエラったらこれ
