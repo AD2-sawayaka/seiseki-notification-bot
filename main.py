@@ -46,15 +46,19 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    flag, updateList = g.run()
-    list = '\n'.join(updateList)
-    if flag:
-        message = "更新されたよ！\n"
-    else:
-        message = "更新されたものはないよ！"
+    # flag, updateList = g.run()
+    # list = '\n'.join(updateList)
+    # if flag:
+    #     message = "更新されたよ！\n"
+    # else:
+    #     message = "更新されたものはないよ！"
+    message = 'test'
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=message + list))
+        TextSendMessage(text=message))
+    # line_bot_api.reply_message(
+    #     event.reply_token,
+    #     TextSendMessage(text=message + list))
 
 
 if __name__ == "__main__":
