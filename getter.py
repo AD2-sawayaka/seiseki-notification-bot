@@ -78,7 +78,7 @@ def run():
     selector = 'body > div > div > div > div > form > div:nth-child(3) > button'
     element = driver.find_element_by_css_selector(selector)
     driver.execute_script('arguments[0].click();', element)
-    driver.implicitly_wait(10)  # 秒
+    driver.implicitly_wait(30)  # 秒
 
     # 教務システム
     selector = '#home_systemCooperationLink > div.left-module.mt15 > div > ul > li:nth-child(1) > a'
