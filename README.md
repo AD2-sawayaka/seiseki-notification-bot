@@ -86,3 +86,28 @@ heroku pg:psql -a your_app_name
 Buildpack 	URL
 chromedrive 	https://github.com/heroku/heroku-buildpack-chromedriver.git
 google-chrome 	https://github.com/heroku/heroku-buildpack-google-chrome.git
+
+
+### line botの成績を自分にのみ送る方法
+
+誰にでも成績情報が行ってしまうのはまずいので決められたuserIdの人のみにpush通知を送る
+
+~~~python
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    message = 'test'
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=message))
+    # userIdを取得
+    userId = json.loads(str(event.source))
+    userId = userId['userId']
+    print(userId)
+~~~
+
+上記のコードをmain.pyで適切に実行するとuserIdが取得できる
+
+そのあとターミナルで以下を実行
+~~~
+heroku config:set USER_ID="userIdの文字列" --app {自分のアプリケーション名}
+~~~
