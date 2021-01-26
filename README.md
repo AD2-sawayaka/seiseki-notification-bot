@@ -1,23 +1,5 @@
 # seiseki-nortification-bot
 
-## Usage
-
-GPA出力
-
-~~~
-$ python GPAgetter.py
-GPAgetter.py:34: DeprecationWarning: use options instead of chrome_options
-  driver = webdriver.Chrome(chrome_options=options)
-Your GPA is 3.508
-~~~
-
-## environment
-
-~~~
-$ python -V
-Python 3.8.7
-~~~
-
 ## setup
 
 ~~~
@@ -120,3 +102,11 @@ heroku addons:add scheduler:standard --app
 
 herokuのページから
 Overview→Heroku Scheduler→Create job
+
+実行するコマンドは
+~~~
+python check.py
+~~~
+
+定期実行する感覚はお好みで
+UTCなので日本時間と合わせるには設定したい時間-9時間で合わせてください
