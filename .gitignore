@@ -1,4 +1,6 @@
 /.venv/
 /html/
+/.vscode/
+/__pycache__/
 .env
 .editorconfig
