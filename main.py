@@ -45,15 +45,15 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-async def handle_message(event):
-    flag, updateList = g.run()
-    list = '\n'.join(updateList)
-    if flag:
-        message = "更新されたよ！\n"
-    else:
-        message = "更新されたものはないよ！"
+def handle_message(event):
+    # flag, updateList = g.run()
+    # list = '\n'.join(updateList)
+    # if flag:
+    #     message = "更新されたよ！\n"
+    # else:
+    #     message = "更新されたものはないよ！"
     message = 'test'
-    await line_bot_api.reply_message(
+    line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='計測中…'))
     # userIdが変化するのであればこれ
@@ -65,6 +65,7 @@ async def handle_message(event):
     # line_bot_api.reply_message(
     #     event.reply_token,
     #     TextSendMessage(text=message + list))
+
 
 
 if __name__ == "__main__":
