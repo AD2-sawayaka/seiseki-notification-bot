@@ -45,7 +45,7 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+async def handle_message(event):
     flag, updateList = g.run()
     list = '\n'.join(updateList)
     if flag:
@@ -53,7 +53,7 @@ def handle_message(event):
     else:
         message = "更新されたものはないよ！"
     message = 'test'
-    line_bot_api.reply_message(
+    await line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='計測中…'))
     # userIdが変化するのであればこれ
