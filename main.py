@@ -14,8 +14,8 @@ import os
 import getter as g
 
 # heroku上では使わない
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 app = Flask(__name__)
 
