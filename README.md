@@ -111,3 +111,12 @@ def handle_message(event):
 ~~~
 heroku config:set USER_ID="userIdの文字列" --app {自分のアプリケーション名}
 ~~~
+
+## Heroku 定期実行
+
+~~~
+heroku addons:add scheduler:standard --app
+~~~
+
+herokuのページから
+Overview→Heroku Scheduler→Create job
