@@ -44,7 +44,6 @@ DATABASE_URLはここ参照https://qiita.com/hoto17296/items/0ca1569d6fa54c7c473
 
 ## Heroku & Line bot
 
-- Line bot作成
 - Heroku
 
 ~~~
@@ -60,14 +59,22 @@ heroku pg:psql -a your_app_name
 =>\i sql/seiseki.sql
 =>select * from seiseki;
 
-
 ~~~
 
     - buildpack追加
 
 Buildpack 	URL
 chromedrive 	https://github.com/heroku/heroku-buildpack-chromedriver.git
+
 google-chrome 	https://github.com/heroku/heroku-buildpack-google-chrome.git
+
+- Line bot作成
+
+webhookのURLを
+
+https://app-name.herokuapp.com/callback
+
+にする
 
 
 ### line botの成績を自分にのみ送る方法
@@ -96,8 +103,10 @@ heroku config:set USER_ID="userIdの文字列" --app {自分のアプリケー�
 
 ## Heroku 定期実行
 
+クレカ登録してから
+
 ~~~
-heroku addons:add scheduler:standard --app
+heroku addons:add scheduler:standard --app {自分のアプリケーション名}
 ~~~
 
 herokuのページから

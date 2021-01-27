@@ -1,13 +1,9 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support import expected_conditions as EC
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
 import chromedriver_binary
-
+from bs4 import BeautifulSoup
 import psycopg2
-
 from dotenv import load_dotenv
 import os
 
@@ -30,11 +26,10 @@ def isResistered(name, cur):
 
 
 def run():
-    # heroku上では要らない、直接登録して
     load_dotenv()
     MY_ID = os.environ["MY_ID"]
     MY_PASS = os.environ["MY_PASS"]
-
+    # chrome driverの配置場所
     # Seleniumをあらゆる環境で起動させるChromeオプション
     options = Options()
     options.add_argument('--disable-gpu')
@@ -51,28 +46,17 @@ def run():
     # driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
     driver = webdriver.Chrome(chrome_options=options)
 
-    driver.implicitly_wait(5)  # 秒
+    driver.implicitly_wait(3)  # 秒
 
-    #
-    #
-    # クローリング/スクレイピング
-    #
-    #
-
-    # 学情にアクセスする
-    # 適宜置き換えてください
-    # url = 'file:///C:/Users/cs19088/Documents/GitHub/seiseki-nortification-bot/html/score.html'
     url = 'file:///Users/otyamura/git/seiseki-nortification-bot/html/score.htm'
 
     driver.get(url)
 
-    cur_url = driver.current_url
-
-    html = urlopen(cur_url)
+    # tableを取得
+    html = driver.page_source
     bsObj = BeautifulSoup(html, "html.parser")
 
     table = bsObj.findAll('table')[-3]
-    # print(table)
     rows = table.select("tr")
 
     # connectionとcursor
@@ -91,16 +75,13 @@ def run():
                 text = "'" + cell.get_text(strip=True) + "'"
                 text = ''.join(text.split())
                 tmp.append(text)
-            # print(cell.get_text(strip=True))
+                # print(cell.get_text(strip=True))
         tmp_name = tmp[0].replace("'", "")
         tmp_str = tmp[0].replace("'", "") + " " + tmp[5].replace("'", "") + " " + tmp[6].replace("'", "")
         # print(tmp_name)
         tmp = ', '.join(tmp)
         if (flag):
             if isResistered(tmp_name, cur):
-                # すでに存在する
-                # print('TRUE')
-
                 print('あるよ')
             else:
                 update = True
@@ -115,6 +96,10 @@ def run():
     cur.close()
     conn.close()
 
-    time.sleep(5)
+    time.sleep(2)
     driver.quit()
     return update, updateList
+
+
+if __name__ == '__main__':
+    run()

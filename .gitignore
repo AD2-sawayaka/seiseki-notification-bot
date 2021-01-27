@@ -2,5 +2,6 @@
 /html/
 /.vscode/
 /__pycache__/
+/localsrc/__pycache__/
 .env
 .editorconfig

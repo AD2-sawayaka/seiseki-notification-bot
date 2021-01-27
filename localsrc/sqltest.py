@@ -2,10 +2,6 @@ import psycopg2
 import os
 from dotenv import load_dotenv
 
-
-
-
-
 load_dotenv()
 
 print("hello world")
@@ -13,7 +9,7 @@ print("hello world")
 def isUpdate(name):
     query = "SELECT subject_name FROM seiseki WHERE subject_name = '" + name +  "'"
     #print(query)
-    
+
     cur.execute(query)
     tmp = str()
     for row in cur:
