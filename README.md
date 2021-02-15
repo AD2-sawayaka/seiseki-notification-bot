@@ -7,9 +7,7 @@
 ## setup
 
 ~~~
-
 pip install -r requirements.txt
-
 ~~~
 
 psycopg2のinstallがエラったらこれ
@@ -52,6 +50,7 @@ URL="your URL"
 ~~~
 
 DATABASE_URLはここ参照https://qiita.com/hoto17296/items/0ca1569d6fa54c7c4732
+
 URLは某学務情報システムのurlを入れてください(/portal/ になるように)
 
 ## local実行
@@ -60,9 +59,11 @@ localsrc内のmain.pyを実行するとLine botのスクリプトが動きます
 
 
 GPAgetter.pyを動かすと、システムからスクレイピングをしてあなたのGPAをコンソール上に出力してくれます
+
 IDが正しく登録されているかどうかを確認するためにお使いください
 
 getter.pyはローカルに保存した成績情報が記載されているhtmlから成績情報をスクレイピングするスクリプトです
+
 テストにお使いください
 
 ScoreGetter.pyはURLに指定された学情のURLに実際にスクレイピングを行うスクリプトです
