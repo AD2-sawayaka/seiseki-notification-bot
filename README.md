@@ -78,8 +78,9 @@ LINEに通知はしません
 heroku create your-app-name
 heroku config:set YOUR_CHANNEL_SECRET="Channel Secretの文字列" --app {自分のアプリケーション名}
 heroku config:set YOUR_CHANNEL_ACCESS_TOKEN="アクセストークンの文字列" --app {自分のアプリケーション名}
-heroku config:set MY_ID="静大ID" --app {自分のアプリケーション名}
-heroku config:set MY_PASS="パスワード" --app {自分のアプリケーション名}
+heroku config:set MY_ID="yourID" --app {自分のアプリケーション名}
+heroku config:set MY_PASS="yourpass" --app {自分のアプリケーション名}
+heroku config:set URL="yourURL" --app {自分のアプリケーション名}
 git push heroku main
 
 heroku addons:create heroku-postgresql:hobby-dev -a your_app_name
