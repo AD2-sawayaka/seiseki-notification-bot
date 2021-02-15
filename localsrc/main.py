@@ -50,13 +50,15 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='計測中…'))
-    # userIdを取得
+    # userIdを取得する場合は以下のコメントアウトを外してください
+    # message = 'IDtest'
+    # # userIdを取得
     # userId = json.loads(str(event.source))
-    # print(userId['userId'])
     # userId = userId['userId']
+    # message += '\n ' + userId
     # line_bot_api.reply_message(
     #     event.reply_token,
-    #     TextSendMessage(text=message + list))
+    #     TextSendMessage(text=message))
     check()
 
 

@@ -14,6 +14,7 @@ import os
 import getter as g
 
 # heroku上では使わない
+# localで動かすときは必要
 # from dotenv import load_dotenv
 # load_dotenv()
 
@@ -49,24 +50,31 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text='計測中…'))
-    # userIdを取得
+
+    # userIdを取得する場合はcheck()をコメントアウトしてください
+    check()
+
+    # userIdを取得する場合は以下のコメントアウトを外してください
+    # message = 'IDtest'
+    # # userIdを取得
     # userId = json.loads(str(event.source))
-    # print(userId['userId'])
     # userId = userId['userId']
+    # message += '\n ' + userId
     # line_bot_api.reply_message(
     #     event.reply_token,
-    #     TextSendMessage(text=message + list))
-    check()
+    #     TextSendMessage(text=message))
 
 
 def check():
     flag, updateList = g.run()
+    # 更新されたもののリストを取得
     strlist = '\n'.join(updateList)
     message = str()
     if flag:
         message = "更新されたよ！\n"
     else:
         message = "更新されたものはないよ！"
+    # 設定されているuserIDにのみ送信
     USER_ID = os.environ["USER_ID"]
     line_bot_api.push_message(USER_ID, TextSendMessage(text=message + strlist))
 

@@ -1,19 +1,27 @@
 # seiseki-nortification-bot
 
+## What is it?
+
+これは某大学で使用されている某学務情報システムから成績が更新されたかどうかを通知するLINE botです
+
 ## setup
 
 ~~~
-pip install selenium
-pip install chromedriver_binary
-pip install python-dotenv
-pip install bs4
-pip install psycopg2
-pip install flask
-pip install line-bot-sdk
+
+pip install -r requirements.txt
+
 ~~~
 
 psycopg2のinstallがエラったらこれ
 https://dev.classmethod.jp/articles/mac-psycopg2-install/
+
+ローカルで実行したい場合は以下も入れてください
+
+~~~
+pip install chromedriver_binary
+pip install python-dotenv
+~~~
+
 
 もしchromeのバージョンが違ったらこのサイトを参考に
 
@@ -25,6 +33,8 @@ pip install chromedriver_binary==88.hogehoge
 
 ### PostgreSQL
 
+ローカルのpostgreSQL使うときはこうしてください
+
 ~~~sql
 CREATE DATABASE seiseki_information;
 \c seiseki_information
@@ -32,15 +42,32 @@ CREATE DATABASE seiseki_information;
 ~~~
 
 ### env
-localで実行する際.envファイルに以下を参考にIDとパスワードを書いてください
+localで実行する際.envファイルに以下を参考に某学情にログインするIDとパスワードを書いてください
 
 ~~~
 MY_ID="your id"
 MY_PASS="your password"
 DATABASE_URL="postgres://postgres:@localhost:5432/seiseki_information"
+URL="your URL"
 ~~~
 
 DATABASE_URLはここ参照https://qiita.com/hoto17296/items/0ca1569d6fa54c7c4732
+URLは某学務情報システムのurlを入れてください(/portal/ になるように)
+
+## local実行
+
+localsrc内のmain.pyを実行するとLine botのスクリプトが動きます
+
+
+GPAgetter.pyを動かすと、システムからスクレイピングをしてあなたのGPAをコンソール上に出力してくれます
+IDが正しく登録されているかどうかを確認するためにお使いください
+
+getter.pyはローカルに保存した成績情報が記載されているhtmlから成績情報をスクレイピングするスクリプトです
+テストにお使いください
+
+ScoreGetter.pyはURLに指定された学情のURLに実際にスクレイピングを行うスクリプトです
+LINEに通知はしません
+
 
 ## Heroku & Line bot
 
@@ -58,7 +85,6 @@ heroku addons:create heroku-postgresql:hobby-dev -a your_app_name
 heroku pg:psql -a your_app_name
 =>\i sql/seiseki.sql
 =>select * from seiseki;
-
 ~~~
 
     - buildpack追加
@@ -70,7 +96,7 @@ google-chrome 	https://github.com/heroku/heroku-buildpack-google-chrome.git
 
 - Line bot作成
 
-webhookのURLを
+line botを作成した後webhookのURLを
 
 https://app-name.herokuapp.com/callback
 
@@ -79,19 +105,21 @@ https://app-name.herokuapp.com/callback
 
 ### line botの成績を自分にのみ送る方法
 
+
 誰にでも成績情報が行ってしまうのはまずいので決められたuserIdの人のみにpush通知を送る
+
 
 ~~~python
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = 'test'
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=message))
+    message = 'IDtest'
     # userIdを取得
     userId = json.loads(str(event.source))
     userId = userId['userId']
-    print(userId)
+    message += '\n ' + userId
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=message))
 ~~~
 
 上記のコードをmain.pyで適切に実行するとuserIdが取得できる
@@ -100,6 +128,8 @@ def handle_message(event):
 ~~~
 heroku config:set USER_ID="userIdの文字列" --app {自分のアプリケーション名}
 ~~~
+
+これで成績情報は自分のアカウントのIDにのみ送信される
 
 ## Heroku 定期実行
 
@@ -118,4 +148,4 @@ python check.py
 ~~~
 
 定期実行する感覚はお好みで
-UTCなので日本時間と合わせるには設定したい時間-9時間で合わせてください
+UTCなので日本時間と合わせるには"設定したい時間-9時間"で合わせてください

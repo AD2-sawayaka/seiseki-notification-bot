@@ -41,8 +41,6 @@ def run():
     #
     # Chromeドライバーの起動
     #
-    # DRIVER_PATH = '/Users/otyamura/Desktop/Selenium/chromedriver'
-    # driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
     driver = webdriver.Chrome(
         executable_path=CHROME_DRIVER_PATH,
         chrome_options=options)
@@ -56,7 +54,7 @@ def run():
     #
 
     # 学情にアクセスする
-    url = 'https://gakujo.shizuoka.ac.jp/portal/'
+    url = os.environ['URL']
     driver.get(url)
 
     # トップページでログインボタンを押す

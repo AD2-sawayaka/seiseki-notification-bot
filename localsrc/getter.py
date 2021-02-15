@@ -42,13 +42,12 @@ def run():
     #
     # Chromeドライバーの起動
     #
-    # DRIVER_PATH = '/Users/otyamura/Desktop/Selenium/chromedriver'
-    # driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
     driver = webdriver.Chrome(chrome_options=options)
 
     driver.implicitly_wait(3)  # 秒
 
-    url = 'file:///Users/otyamura/git/seiseki-nortification-bot/html/score.htm'
+    # 保存したモノに適宜変更してくださ
+    url = 'file:///Users/yourname/seiseki-nortification-bot/html/score.htm'
 
     driver.get(url)
 

@@ -29,8 +29,6 @@ options.add_argument('--start-maximized')
 #
 # Chromeドライバーの起動
 #
-# DRIVER_PATH = '/Users/otyamura/Desktop/Selenium/chromedriver'
-# driver = webdriver.Chrome(executable_path=DRIVER_PATH, chrome_options=options)
 driver = webdriver.Chrome(chrome_options=options)
 
 driver.implicitly_wait(10)  # 秒
@@ -42,7 +40,7 @@ driver.implicitly_wait(10)  # 秒
 #
 
 # 学情にアクセスする
-url = 'https://gakujo.shizuoka.ac.jp/portal/'
+url = os.environ['URL']
 driver.get(url)
 
 # トップページでログインボタンを押す
