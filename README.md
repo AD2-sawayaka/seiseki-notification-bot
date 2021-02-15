@@ -87,7 +87,9 @@ heroku pg:psql -a your_app_name
 =>select * from seiseki;
 ~~~
 
-    - buildpack追加
+
+- buildpack追加
+
 
 Buildpack 	URL
 chromedrive 	https://github.com/heroku/heroku-buildpack-chromedriver.git
