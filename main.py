@@ -47,22 +47,29 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text='計測中…'))
+    if event.message.text == 'GPA':
+        gpa = g.calcGPA()
+        message = "あなたのGPAは " + str(gpa)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message))
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='計測中…'))
 
-    # userIdを取得する場合はcheck()をコメントアウトしてください
-    check()
+        # userIdを取得する場合はcheck()をコメントアウトしてください
+        check()
 
-    # userIdを取得する場合は以下のコメントアウトを外してください
-    # message = 'IDtest'
-    # # userIdを取得
-    # userId = json.loads(str(event.source))
-    # userId = userId['userId']
-    # message += '\n ' + userId
-    # line_bot_api.reply_message(
-    #     event.reply_token,
-    #     TextSendMessage(text=message))
+        # userIdを取得する場合は以下のコメントアウトを外してください
+        # message = 'IDtest'
+        # # userIdを取得
+        # userId = json.loads(str(event.source))
+        # userId = userId['userId']
+        # message += '\n ' + userId
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text=message))
 
 
 def check():
@@ -70,12 +77,15 @@ def check():
     # 更新されたもののリストを取得
     strlist = '\n'.join(updateList)
     message = str()
+    gpa = float()
     if flag:
         message = "更新されたよ！\n"
+        gpa = g.calcGPA()
     else:
         message = "更新されたものはないよ！"
     # 設定されているuserIDにのみ送信
     USER_ID = os.environ["USER_ID"]
+    message += '\nあなたのGPAは ' + str(gpa)
     line_bot_api.push_message(USER_ID, TextSendMessage(text=message + strlist))
 
 
