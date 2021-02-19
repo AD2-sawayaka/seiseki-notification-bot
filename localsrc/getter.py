@@ -25,6 +25,28 @@ def isResistered(name, cur):
     return False
 
 
+def calcGPA():
+    # connectionとcursor
+    load_dotenv()
+    conn = get_connection()
+    cur = conn.cursor()
+
+    query = "SELECT unit, gp FROM seiseki"
+    cur.execute(query)
+    score = 0.0
+    unitSum = 0
+    for row in cur:
+        unitSum += row[0]
+        score += row[0] * row[1]
+    gpa = score / unitSum
+    gpa = format(gpa, '.3f')
+
+    cur.close()
+    conn.close()
+
+    return gpa
+
+
 def run():
     load_dotenv()
     MY_ID = os.environ["MY_ID"]
