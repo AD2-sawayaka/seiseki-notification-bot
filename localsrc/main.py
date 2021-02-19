@@ -77,12 +77,12 @@ def check():
     if flag:
         message = "更新されたよ！\n"
         gpa = g.calcGPA()
+        message += '\nYour GPA is ' + str(gpa)
     else:
         message = "更新されたものはないよ！"
     load_dotenv()
     USER_ID = os.environ["USER_ID"]
 
-    message += '\nYour GPA is ' + str(gpa)
     line_bot_api.push_message(USER_ID, TextSendMessage(text=message + strlist))
 
 
