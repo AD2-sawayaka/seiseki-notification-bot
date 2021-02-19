@@ -81,11 +81,11 @@ def check():
     if flag:
         message = "更新されたよ！\n"
         gpa = g.calcGPA()
+        message += '\nあなたのGPAは ' + str(gpa)
     else:
         message = "更新されたものはないよ！"
     # 設定されているuserIDにのみ送信
     USER_ID = os.environ["USER_ID"]
-    message += '\nあなたのGPAは ' + str(gpa)
     line_bot_api.push_message(USER_ID, TextSendMessage(text=message + strlist))
 
 
