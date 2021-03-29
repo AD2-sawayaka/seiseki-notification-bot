@@ -1,4 +1,4 @@
-# seiseki-nortification-bot
+# seiseki-notification-bot
 
 ## What is it?
 
